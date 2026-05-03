@@ -1,0 +1,6 @@
+{
+  "name": "Defendx-CTI",
+  "description": "Production-ready Cyber Threat Intelligence platform. Real-time monitoring, automated analysis, and vulnerability management. Unified XDR and SIEM.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["vulnerability_tracking", "threat_intelligence", "rbac_auth"]
+}
