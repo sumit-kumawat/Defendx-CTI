@@ -9,7 +9,6 @@ import { Header, Footer } from "./components/Layout";
 import { Hero, Explainer } from "./components/Hero";
 import { StatsSection } from "./components/Stats";
 import { ChartsSection } from "./components/Charts";
-import { TopSearches } from "./components/TopSearches";
 import { SearchPortal } from "./components/SearchPortal";
 
 const HomePage = () => {
@@ -26,14 +25,16 @@ const HomePage = () => {
     <main>
       <Hero onSearch={handleSearch} />
       <Explainer onChipClick={handleSearch} />
-      <StatsSection />
+      
+      <div className="bg-gray-50/30">
+        <StatsSection />
+        <ChartsSection />
+      </div>
       
       <div className="bg-white">
         <div id="results" className="max-w-7xl mx-auto px-4 md:px-8 py-12 scroll-mt-24 min-h-[100px]">
            <SearchPortal externalQuery={searchQuery} />
         </div>
-        <ChartsSection />
-        <TopSearches onBrandClick={handleSearch} />
       </div>
     </main>
   );

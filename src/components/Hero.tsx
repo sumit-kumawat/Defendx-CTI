@@ -20,17 +20,17 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); onSearch(val); }} className="relative max-w-5xl mx-auto">
-          <div className="relative group p-1 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl shadow-2xl transition-all hover:bg-white/[0.07] mb-6">
+          <div className="relative group p-1 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xl shadow-2xl transition-all hover:bg-white/[0.07] mb-6">
             <input 
               type="text" 
               value={val}
               onChange={(e) => setVal(e.target.value)}
-              placeholder="Search..." 
-              className="w-full bg-white h-16 pl-8 pr-40 rounded-xl text-lg shadow-inner focus:outline-none transition-all placeholder:text-gray-400 font-medium text-gray-900"
+              placeholder="Search CVE, System, or Intelligence Vector..." 
+              className="w-full bg-white h-16 pl-8 pr-40 rounded-xl text-lg shadow-inner focus:outline-none transition-all placeholder:text-gray-400 font-medium text-gray-900 border border-gray-100"
             />
-            <button type="submit" className="absolute right-2 top-2 bottom-2 px-10 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all active:scale-[0.98] flex items-center gap-2 group shadow-lg">
+            <button type="submit" className="absolute right-2 top-2 bottom-2 px-10 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all active:scale-[0.98] flex items-center gap-2 group shadow-lg">
               <Search className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="font-black uppercase tracking-[0.2em] text-[10px]">Search</span>
+              <span className="font-black uppercase tracking-[0.2em] text-[10px]">Search Intel</span>
             </button>
           </div>
           
@@ -38,8 +38,8 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
             {[
               { label: "Min CVSS Score", options: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
               { label: "Min CVSS Severity", options: ["Low", "Medium", "High", "Critical"] },
-              { label: "Date", options: ["Within last 2k CVEs", "Within last month", "Within last year"] },
-              { label: "Order by", options: ["CVE ID (Descending)", "CVE ID (Ascending)", "Score (Descending)", "Score (Ascending)", "Published Date (Descending)"] }
+              { label: "Timeline range", options: ["Past 24 Hours", "Past 7 Days", "Past 30 Days", "Past Year"] },
+              { label: "Distribution Sort", options: ["Publication Date", "Score Magnitude", "Threat Relevance"] }
             ].map((filter) => (
               <div key={filter.label} className="relative group">
                 <select 
@@ -81,12 +81,12 @@ export const Explainer = ({ onChipClick }: { onChipClick: (q: string) => void })
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-lg border border-primary/10 text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-4">
              Global Intelligence Node
           </div>
-          <h1 className="text-4xl font-black text-gray-900 mb-6 leading-tight">
-            Cyber Threat <span className="text-primary italic">Intelligence</span>
+          <h1 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
+            Advanced Cyber Threat <span className="text-primary italic">Intelligence</span>
           </h1>
-          <p className="text-base text-gray-500 mb-8 leading-relaxed max-w-lg">
-            Defendx provides enterprise-grade CTI infrastructure. Monitor global threat indicators, 
-            CVE distributions, and real-time vulnerability scoring within a secure cloud-native ecosystem.
+          <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-lg font-medium">
+            Production-ready Cyber Threat Intelligence platform. Real-time monitoring, 
+            automated analysis, and vulnerability management. Unified XDR and SIEM solution for enterprise security.
           </p>
         </motion.div>
       </div>

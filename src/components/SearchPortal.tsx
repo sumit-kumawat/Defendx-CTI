@@ -14,6 +14,24 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
   const severity = score > 8.5 ? "Critical" : score > 7 ? "High" : "Medium";
   const severityColor = severity === "Critical" ? "text-red-600 bg-red-50" : severity === "High" ? "text-orange-600 bg-orange-50" : "text-yellow-600 bg-yellow-50";
 
+  const copyToClipboard = () => {
+    const text = JSON.stringify(indicator, null, 2);
+    navigator.clipboard.writeText(text);
+  };
+
+  const downloadJson = () => {
+    const data = JSON.stringify(indicator, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `cti-${indicator.id || 'threat-node'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const indicatorId = indicator.id || (indicator.pulse_info?.pulses?.[0]?.id) || "54d10cb411d4083acf970927";
+
   return (
     <motion.div 
       initial={{ opacity: 0 }} 
@@ -25,12 +43,12 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
       <motion.div 
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
-        className="bg-white w-full max-w-6xl rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-white w-full max-w-6xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-8 border-b border-gray-100 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white">
+            <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
               <Shield className="w-6 h-6" />
             </div>
             <div>
@@ -39,10 +57,14 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
                   {indicator.name || indicator.cve || indicator.indicator}
                 </h2>
                 <div className="flex gap-2">
-                  <button className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 transition-colors">
+                  <button 
+                    onClick={copyToClipboard}
+                    className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 transition-colors" title="Copy to clipboard">
                     <Copy className="w-4 h-4" />
                   </button>
-                  <button className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 transition-colors">
+                  <button 
+                    onClick={downloadJson}
+                    className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 transition-colors" title="Download JSON">
                     <Download className="w-4 h-4" />
                   </button>
                 </div>
@@ -77,17 +99,17 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
                      <div className="w-1 h-6 bg-primary rounded-full"></div>
                      Metrics
                    </h3>
-                   <div className="bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
+                   <div className="bg-gray-50/50 rounded-xl border border-gray-100 overflow-hidden">
                      <table className="w-full text-left">
-                       <thead className="bg-[#1e3a8a] text-white text-[11px] font-black uppercase tracking-widest">
-                         <tr>
-                           <th className="px-6 py-4">Source</th>
-                           <th className="px-6 py-4 text-center">Score</th>
-                           <th className="px-6 py-4 text-center">Severity</th>
-                           <th className="px-6 py-4 text-center">Version</th>
-                           <th className="px-6 py-4">Vector</th>
-                         </tr>
-                       </thead>
+                       <thead className="bg-primary text-white text-[11px] font-black uppercase tracking-widest">
+                      <tr className="relative">
+                        <th className="px-6 py-4">Source</th>
+                        <th className="px-6 py-4 text-center">Score</th>
+                        <th className="px-6 py-4 text-center">Severity</th>
+                        <th className="px-6 py-4 text-center">Version</th>
+                        <th className="px-6 py-4">Vector</th>
+                      </tr>
+                    </thead>
                        <tbody className="text-xs">
                          <tr className="border-b border-gray-100">
                            <td className="px-6 py-4 font-bold text-gray-500 uppercase flex items-center gap-2">
@@ -133,17 +155,17 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-red-50/30 rounded-[32px] p-10 border border-red-100/50 flex flex-col items-center justify-center text-center">
+              <div className="bg-red-50/30 rounded-xl p-10 border border-red-100/50 flex flex-col items-center justify-center text-center">
                 <div className="relative w-40 h-40 mb-6">
                   <svg className="w-full h-full transform -rotate-90">
                     <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-red-100" />
-                    <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-red-600" 
+                    <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-primary" 
                       strokeDasharray={440} strokeDashoffset={440 - (440 * Number(score)) / 10}
                       strokeLinecap="round" />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-5xl font-black text-gray-900 leading-none">{score}</span>
-                    <span className="text-[11px] font-black text-red-600 uppercase tracking-widest mt-1">{severity}</span>
+                    <span className="text-[11px] font-black text-primary uppercase tracking-widest mt-1">{severity}</span>
                   </div>
                 </div>
                 <div className="w-full space-y-4 text-left">
@@ -163,17 +185,6 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
                   ))}
                 </div>
               </div>
-
-              <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                 <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Observation Tags</h4>
-                 <div className="flex flex-wrap gap-2">
-                   {(indicator.tags || ["Vulnerability", "Sentinel", "Active Monitoring"]).slice(0, 10).map((tag: string) => (
-                     <span key={tag} className="px-2.5 py-1 bg-white text-gray-600 border border-gray-200 rounded-lg text-[9px] font-black uppercase tracking-tighter">
-                       {tag}
-                     </span>
-                   ))}
-                 </div>
-              </div>
             </div>
           </div>
 
@@ -182,9 +193,9 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
                <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
                References
              </h3>
-             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+             <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
                 <table className="w-full text-left">
-                   <thead className="bg-[#1d4ed8] text-white text-[11px] font-black uppercase tracking-widest">
+                   <thead className="bg-primary text-white text-[11px] font-black uppercase tracking-widest">
                      <tr>
                        <th className="px-6 py-4 w-1/4">Source</th>
                        <th className="px-6 py-4">URL</th>
@@ -193,14 +204,14 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
                    <tbody>
                      <tr className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                        <td className="px-6 py-5 flex items-center gap-3 font-bold text-gray-500">
-                         <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center p-1.5">
+                         <div className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-2.5">
                             <img src="https://cdn.defendx.io/files/logo/light-icon.svg" className="w-full grayscale" alt="" />
                          </div>
                          DEFENDX INTEL
                        </td>
                        <td className="px-6 py-5">
-                         <a href="#" className="text-blue-600 font-medium hover:underline flex items-center gap-2 text-sm">
-                           https://threatportal.defendx.io/vulnerabilities/detail/{indicator.id || "SNTL-9921"}
+                         <a href={`https://cti.defendx.io/vulnerabilities/detail/${indicatorId}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 font-medium hover:underline flex items-center gap-2 text-sm">
+                           https://cti.defendx.io/vulnerabilities/detail/{indicatorId}
                            <ExternalLink className="w-3.5 h-3.5" />
                          </a>
                        </td>
@@ -214,9 +225,9 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
         <div className="p-8 bg-gray-50 border-t border-gray-100 flex justify-end">
           <button 
             onClick={onClose}
-            className="px-12 py-4 bg-black text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] transition-all hover:bg-primary active:scale-[0.98] shadow-lg"
+            className="px-12 py-4 bg-black text-white rounded-xl font-black text-[11px] uppercase tracking-[0.3em] transition-all hover:bg-primary active:scale-[0.98] shadow-lg"
           >
-            Close Analysis
+            Dismiss
           </button>
         </div>
       </motion.div>
@@ -340,7 +351,7 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: Math.min(i * 0.03, 0.6) }}
                       onClick={() => setSelectedIndicator(res)}
-                      className="group cursor-pointer bg-white p-6 rounded-[24px] border border-gray-100 hover:border-primary/20 hover:shadow-2xl transition-all"
+                      className="group cursor-pointer bg-white p-6 rounded-xl border border-gray-100 hover:border-primary/20 hover:shadow-2xl transition-all"
                     >
                       <div className="flex items-start gap-6">
                         <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shrink-0">

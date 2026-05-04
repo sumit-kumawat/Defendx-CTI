@@ -9,23 +9,24 @@ export const Header = () => {
         <div className="flex items-center gap-8">
           <button 
             onClick={() => window.location.href = '/'}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-2 group transition-all"
           >
-            <img src="https://cdn.defendx.io/files/logo/light.svg" alt="Defendx" className="h-12" />
+            <div className="relative h-8 w-32">
+              <img src="https://cdn.defendx.io/files/logo/light.svg" alt="Defendx" className="h-8 absolute inset-0 object-contain" />
+            </div>
           </button>
         </div>
-        <div className="flex items-center gap-4">
-           <div className="hidden md:flex items-center gap-3 text-[10px] font-extrabold text-gray-500 uppercase tracking-widest border-r border-gray-100 pr-6 mr-2">
-             <div className="flex flex-col h-3 w-6 gap-0.5">
-               <div className="h-1 bg-[#FF9933] w-full rounded-t-sm"></div>
-               <div className="h-1 bg-white w-full border-y border-gray-100"></div>
-               <div className="h-1 bg-[#138808] w-full rounded-b-sm"></div>
+        <div className="flex items-center gap-2">
+           <div className="hidden lg:flex items-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+             <div className="flex items-center gap-2">
+               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+               Security Tier: Active
              </div>
-             Security Tier: Active
            </div>
-           <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-50 rounded-lg border border-gray-100 text-xs font-bold text-gray-600">
-             <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
-             Verified Defense Node
+           <div className="flex flex-col h-1.5 w-8 gap-0.5 ml-4">
+             <div className="h-0.5 bg-[#FF9933] w-full rounded-full"></div>
+             <div className="h-0.5 bg-gray-200 w-full rounded-full"></div>
+             <div className="h-0.5 bg-[#138808] w-full rounded-full"></div>
            </div>
         </div>
       </div>
@@ -34,34 +35,39 @@ export const Header = () => {
 };
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-[#0a0a0a] text-white py-16 border-t border-white/5">
+    <footer className="bg-[#0a0a0a] text-white py-20 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 text-center">
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <img src="https://cdn.defendx.io/files/logo/light.svg" alt="Defendx" className="h-8 brightness-0 invert" />
+        <div className="flex items-center justify-center gap-2 mb-10">
+          <img src="https://cdn.defendx.io/files/logo/light.svg" alt="Defendx" className="h-14 brightness-0 invert opacity-90" />
         </div>
-        <p className="text-sm text-gray-500 mb-10 max-w-lg mx-auto leading-relaxed">
-          Production-ready Cyber Threat Intelligence platform. Real-time monitoring, 
-          automated analysis, and vulnerability management.
+        <p className="text-base text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
+          Unified Cyber Threat Intelligence platform providing real-time monitoring, 
+          automated analysis, and vulnerability management. Enterprise-grade XDR and SIEM solutions for mission-critical security operations.
         </p>
         
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-12">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          <a href="#" className="hover:text-white transition-colors">Compliance</a>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-[10px] font-black uppercase tracking-[0.3em] text-gray-600 mb-16">
+          <a href="https://policies.defendx.io/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="https://policies.defendx.io/terms" className="hover:text-white transition-colors">Terms of Service</a>
+          <a href="https://policies.defendx.io/technologies" className="hover:text-white transition-colors">Compliance</a>
+          <a href="https://docs.defendx.io/" className="hover:text-white transition-colors">Documentation</a>
+          <a href="https://policies.defendx.io/faq" className="hover:text-white transition-colors">FAQ</a>
         </div>
 
-        <div className="pt-12 border-t border-white/5 flex flex-col items-center gap-6">
-          <div className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">
-            © 2026 Defendx | Unified XDR and SIEM
+        <div className="pt-16 border-t border-white/5 flex flex-col items-center gap-8">
+          <div className="text-[11px] font-black text-gray-500 uppercase tracking-[0.4em]">
+            © {currentYear} Defendx | Unified XDR & SIEM
           </div>
           <a 
-            href="https://www.conzex.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="https://cti.defendx.io" 
             className="group"
           >
-            <div className="h-0.5 w-48 bg-gradient-to-r from-[#FF9933] via-white to-[#138808] mb-2 opacity-50 group-hover:opacity-100 transition-opacity mx-auto"></div>
+            <div className="flex h-0.5 w-48 mb-2 opacity-50 group-hover:opacity-100 transition-opacity mx-auto gap-0.5">
+              <div className="h-full bg-[#FF9933] w-full"></div>
+              <div className="h-full bg-white w-full"></div>
+              <div className="h-full bg-[#138808] w-full"></div>
+            </div>
             <div className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 group-hover:text-white transition-colors">
               A Conzex Global Product
             </div>

@@ -45,9 +45,9 @@ export const ChartsSection = () => {
     fetchData();
   }, []);
 
-  const PIE_COLORS = [
-    "#3b82f6", "#60a5fa", "#93c5fd", "#1e3a8a", "#0f766e", "#94a3b8", 
-    "#f59e0b", "#bae6fd", "#fee2e2", "#fef9c3", "#2563eb", "#38bdf8"
+const PIE_COLORS = [
+    "#2045B4", "#161A21", "#3b82f6", "#E95420", "#D70A53", "#294172", 
+    "#CB3837", "#F00000", "#3776AB", "#EE0000", "#10B981", "#0C322C"
   ];
   
   const BAR_COLORS = {
@@ -55,7 +55,7 @@ export const ChartsSection = () => {
     Low: "#94A3B8",
     Medium: "#FACC15",
     High: "#FB923C",
-    Critical: "#B91C1C"
+    Critical: "#2045B4"
   };
 
   if (loading) return (
@@ -70,14 +70,19 @@ export const ChartsSection = () => {
         <div className="w-2 h-10 bg-primary rounded-full" />
         <div>
           <h2 className="text-3xl font-black text-gray-900 leading-tight">Defendx <span className="text-primary italic">Threat Matrix</span></h2>
-          <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Real-time Statistical Analysis</p>
+          <div className="flex h-1 w-24 gap-1 mt-2 mb-2">
+            <div className="bg-[#FF9933] w-full rounded-full"></div>
+            <div className="bg-gray-200 w-full rounded-full"></div>
+            <div className="bg-[#138808] w-full rounded-full"></div>
+          </div>
+          <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Real-time Statistical Analysis</p>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* CVEs by source */}
         <div>
-          <h2 className="text-2xl font-medium text-gray-900 mb-8 px-2">CVEs by source</h2>
-          <div className="h-[450px] bg-white rounded-3xl border border-gray-100 shadow-sm p-8 flex items-center">
+          <h2 className="text-xl font-black text-gray-900 mb-8 px-2 uppercase tracking-tight">CVEs by <span className="text-primary italic">source</span></h2>
+          <div className="h-[450px] bg-white rounded-xl border border-gray-100 shadow-sm p-8 flex items-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -116,8 +121,8 @@ export const ChartsSection = () => {
 
         {/* CVEs by year */}
         <div>
-          <h2 className="text-2xl font-medium text-gray-900 mb-8 px-2">CVEs by year</h2>
-          <div className="h-[450px] bg-white rounded-3xl border border-gray-100 shadow-sm p-8">
+          <h2 className="text-xl font-black text-gray-900 mb-8 px-2 uppercase tracking-tight">CVEs by <span className="text-primary italic">year</span></h2>
+          <div className="h-[450px] bg-white rounded-xl border border-gray-100 shadow-sm p-8">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.timeline} margin={{ top: 20, right: 0, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
