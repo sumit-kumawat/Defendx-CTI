@@ -9,6 +9,11 @@
   --color-background: #f8f9fa;
   --color-text: #212529;
   --color-text-muted: #6c757d;
+  
+  --radius-lg: 10px;
+  --radius-xl: 10px;
+  --radius-2xl: 10px;
+  --radius-3xl: 10px;
 }
 
 @layer base {

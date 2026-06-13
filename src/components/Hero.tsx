@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Search, ChevronDown, Monitor, Apple, Laptop, Calendar, AlertTriangle, AlertCircle } from "lucide-react";
+import { Search, ChevronDown, Calendar, AlertTriangle, AlertCircle } from "lucide-react";
 import { motion } from "motion/react";
+import { LinuxLogo, AppleLogo, WindowsLogo } from "./BrandLogos";
 
 export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
   const [val, setVal] = useState("");
   
   return (
     <section className="bg-[#0a0a0a] py-16 relative overflow-hidden border-b border-white/5">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,92,187,0.12),transparent)] pointer-events-none" />
+      {/* Dynamic background glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(32,69,180,0.12),transparent)] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8">
@@ -21,15 +23,15 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
 
         <form onSubmit={(e) => { e.preventDefault(); onSearch(val); }} className="relative w-full">
           <div className="p-[3px] rounded-2xl moving-rainbow-border shadow-[0_15px_40px_rgba(0,0,0,0.25)] transition-all hover:scale-[1.002] duration-300 mb-6">
-            <div className="relative bg-white rounded-[13px] flex items-center overflow-hidden">
+            <div className="relative bg-white rounded-[10px] flex items-center overflow-hidden">
               <input 
                 type="text" 
                 value={val}
                 onChange={(e) => setVal(e.target.value)}
-                placeholder="Search CVE, System, or Intelligence Vector..." 
+                placeholder="Search CVE, IP Address, Domain, URL, or File Hash..." 
                 className="w-full bg-transparent h-16 pl-8 pr-44 text-lg focus:outline-none placeholder:text-gray-400 font-semibold text-gray-900"
               />
-              <button type="submit" className="absolute right-2 top-2 bottom-2 px-8 bg-black hover:bg-gray-900 text-white rounded-xl transition-all active:scale-[0.98] flex items-center gap-2 group premium-3d-interactive">
+              <button type="submit" className="absolute right-2 top-2 bottom-2 px-8 bg-[#121620] hover:bg-black text-white rounded-xl transition-all active:scale-[0.98] flex items-center gap-2 group premium-3d-interactive cursor-pointer">
                 <Search className="w-4 h-4 text-white/80 group-hover:scale-110 transition-transform" />
                 <span className="font-bold uppercase tracking-[0.2em] text-[10px]">Search Intel</span>
               </button>
@@ -44,7 +46,11 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
             ].map((filter) => (
               <div key={filter.label} className="relative group">
                 <select 
-                  onChange={(e) => onSearch(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      onSearch(e.target.value);
+                    }
+                  }}
                   defaultValue=""
                   className="w-full appearance-none bg-white/5 border border-white/10 h-13 pl-5 pr-12 rounded-xl text-white/70 text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 hover:text-white transition-all cursor-pointer outline-none focus:border-white/30"
                 >
@@ -63,12 +69,12 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
 
 export const Explainer = ({ onChipClick }: { onChipClick: (q: string) => void }) => {
   const chips = [
-    { label: "Linux", img: "https://cdn.defendx.io/files/icon/linux.svg", query: "linux vulnerability" },
-    { label: "MacOS", img: "https://cdn.defendx.io/files/icon/macbook.png", query: "macos threat" },
-    { label: "Windows", img: "https://cdn.defendx.io/files/icon/windows.png", query: "windows cve" },
-    { label: "Published last week", icon: Calendar, color: "bg-blue-50 text-blue-600 border-blue-100", query: "last_week" },
-    { label: "Latest critical severity", icon: AlertTriangle, color: "bg-red-50 text-red-600 border-red-100", query: "critical" },
-    { label: "Latest high severity", icon: AlertCircle, color: "bg-orange-50 text-orange-600 border-orange-100", query: "high" },
+    { label: "Linux", logoComponent: LinuxLogo, logoColor: "text-gray-900 group-hover:text-primary", query: "linux vulnerability" },
+    { label: "MacOS", logoComponent: AppleLogo, logoColor: "text-gray-950 group-hover:text-primary", query: "macos threat" },
+    { label: "Windows", logoComponent: WindowsLogo, logoColor: "text-[#00a4ef] group-hover:text-primary", query: "windows cve" },
+    { label: "Published last week", icon: Calendar, color: "bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-100/50", query: "last_week" },
+    { label: "Latest critical severity", icon: AlertTriangle, color: "bg-red-50 text-red-600 border-red-100 hover:bg-red-100/50", query: "critical" },
+    { label: "Latest high severity", icon: AlertCircle, color: "bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100/50", query: "high" },
   ];
 
   return (
@@ -92,36 +98,40 @@ export const Explainer = ({ onChipClick }: { onChipClick: (q: string) => void })
         </motion.div>
       </div>
       <div className="w-full lg:w-96 shrink-0">
+        {/* OS category chips */}
         <div className="grid grid-cols-3 gap-2 mb-2">
-          {chips.slice(0, 3).map((chip) => (
-            <button 
-              key={chip.label} 
-              onClick={() => onChipClick(chip.query)}
-              className="bg-white h-20 rounded-xl flex flex-col items-center justify-center gap-1.5 text-[10px] font-bold uppercase transition-all group border border-gray-100 shadow-sm hover:border-primary active:scale-95 px-2"
-            >
-              {chip.img ? (
-                <img src={chip.img} alt={chip.label} className="w-6 h-6 object-contain filter group-hover:brightness-110 transition-all" />
-              ) : chip.icon && (
-                <chip.icon className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors" />
-              )}
-              {chip.label}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-col gap-2">
-          {chips.slice(3).map((chip) => (
-            <button 
-              key={chip.label} 
-              onClick={() => onChipClick(chip.query)}
-              className={`${chip.color || 'bg-white text-gray-600'} h-12 rounded-xl px-5 flex items-center justify-between text-xs font-bold border border-gray-100 shadow-sm hover:shadow-md transition-all active:scale-[0.98] group`}
-            >
-              <div className="flex items-center gap-3">
-                <chip.icon className="w-4 h-4 opacity-70" />
+          {chips.slice(0, 3).map((chip) => {
+            const Logo = chip.logoComponent!;
+            return (
+              <button 
+                key={chip.label} 
+                onClick={() => onChipClick(chip.query)}
+                className="bg-white h-20 rounded-xl flex flex-col items-center justify-center gap-1.5 text-[10px] font-bold uppercase transition-all group border border-gray-100 shadow-sm hover:border-primary active:scale-95 px-2 cursor-pointer"
+              >
+                <Logo className={`w-6 h-6 object-contain ${chip.logoColor} transition-colors duration-300`} />
                 {chip.label}
-              </div>
-              <ChevronDown className="-rotate-90 w-3 h-3 opacity-30 group-hover:opacity-100" />
-            </button>
-          ))}
+              </button>
+            );
+          })}
+        </div>
+        {/* Alert category chips */}
+        <div className="flex flex-col gap-2">
+          {chips.slice(3).map((chip) => {
+            const Icon = chip.icon!;
+            return (
+              <button 
+                key={chip.label} 
+                onClick={() => onChipClick(chip.query)}
+                className={`${chip.color || 'bg-white text-gray-600'} h-12 rounded-xl px-5 flex items-center justify-between text-xs font-bold border border-gray-100 shadow-sm transition-all active:scale-[0.98] group cursor-pointer`}
+              >
+                <div className="flex items-center gap-3">
+                  <Icon className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform" />
+                  {chip.label}
+                </div>
+                <ChevronDown className="-rotate-90 w-3 h-3 opacity-30 group-hover:opacity-100 transition-opacity" />
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
