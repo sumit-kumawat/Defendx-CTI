@@ -69,7 +69,7 @@ const PIE_COLORS = [
       <div className="flex items-center gap-4 mb-16 px-2">
         <div className="w-2 h-10 bg-primary rounded-full" />
         <div>
-          <h2 className="text-3xl font-black text-gray-900 leading-tight">Defendx <span className="text-primary italic">Threat Matrix</span></h2>
+          <h2 className="text-2xl font-bold text-gray-900 leading-tight">Defendx <span className="text-primary italic">Threat Matrix</span></h2>
           <div className="flex h-1 w-24 gap-1 mt-2 mb-2">
             <div className="bg-[#FF9933] w-full rounded-full"></div>
             <div className="bg-gray-200 w-full rounded-full"></div>
@@ -81,8 +81,18 @@ const PIE_COLORS = [
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* CVEs by source */}
         <div>
-          <h2 className="text-xl font-black text-gray-900 mb-8 px-2 uppercase tracking-tight">CVEs by <span className="text-primary italic">source</span></h2>
-          <div className="h-[450px] bg-white rounded-xl border border-gray-100 shadow-sm p-8 flex items-center">
+          <h2 className="text-lg font-bold text-gray-900 mb-8 px-2 uppercase tracking-tight flex items-center gap-2">
+            <span className="w-1.5 h-4 bg-[#FF9933] rounded-full"></span>
+            CVEs by <span className="text-primary italic">source</span>
+          </h2>
+          <div className="premium-3d-card h-[450px] p-8 flex items-center relative overflow-hidden group/chart-source">
+            {/* Hover tri-color accent strip */}
+            <div className="absolute top-0 bottom-0 left-0 w-1 flex flex-col opacity-0 group-hover/chart-source:opacity-100 transition-opacity">
+              <div className="bg-[#FF9933] flex-1"></div>
+              <div className="bg-gray-200 flex-1"></div>
+              <div className="bg-[#138808] flex-1"></div>
+            </div>
+
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -121,8 +131,18 @@ const PIE_COLORS = [
 
         {/* CVEs by year */}
         <div>
-          <h2 className="text-xl font-black text-gray-900 mb-8 px-2 uppercase tracking-tight">CVEs by <span className="text-primary italic">year</span></h2>
-          <div className="h-[450px] bg-white rounded-xl border border-gray-100 shadow-sm p-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-8 px-2 uppercase tracking-tight flex items-center gap-2">
+            <span className="w-1.5 h-4 bg-[#138808] rounded-full"></span>
+            CVEs by <span className="text-primary italic">year</span>
+          </h2>
+          <div className="premium-3d-card h-[450px] p-8 relative overflow-hidden group/chart-year">
+            {/* Hover tri-color accent strip */}
+            <div className="absolute top-0 bottom-0 left-0 w-1 flex flex-col opacity-0 group-hover/chart-year:opacity-100 transition-opacity">
+              <div className="bg-[#FF9933] flex-1"></div>
+              <div className="bg-gray-200 flex-1"></div>
+              <div className="bg-[#138808] flex-1"></div>
+            </div>
+
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.timeline} margin={{ top: 20, right: 0, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />

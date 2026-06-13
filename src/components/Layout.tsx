@@ -9,11 +9,9 @@ export const Header = () => {
         <div className="flex items-center gap-8">
           <button 
             onClick={() => window.location.href = '/'}
-            className="flex items-center gap-2 group transition-all"
+            className="flex items-center group transition-all"
           >
-            <div className="relative h-8 w-32">
-              <img src="https://cdn.defendx.io/files/logo/light.svg" alt="Defendx" className="h-8 absolute inset-0 object-contain" />
-            </div>
+            <img src="https://xdrive.conzex.com/api/files/public/1a6df81f-283f-4748-bcaa-35a6c0b88f70/light-icon.svg" alt="Defendx Logo" className="h-10 w-auto object-contain" />
           </button>
         </div>
         <div className="flex items-center gap-2">
@@ -39,8 +37,8 @@ export const Footer = () => {
   return (
     <footer className="bg-[#0a0a0a] text-white py-20 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 text-center">
-        <div className="flex items-center justify-center gap-2 mb-10">
-          <img src="https://cdn.defendx.io/files/logo/light.svg" alt="Defendx" className="h-14 brightness-0 invert opacity-90" />
+        <div className="flex items-center justify-center mb-8">
+          <img src="https://xdrive.conzex.com/api/files/public/1a6df81f-283f-4748-bcaa-35a6c0b88f70/light-icon.svg" alt="Defendx Logo" className="h-14 w-auto object-contain brightness-0 invert opacity-90" />
         </div>
         <p className="text-base text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
           Unified Cyber Threat Intelligence platform providing real-time monitoring, 

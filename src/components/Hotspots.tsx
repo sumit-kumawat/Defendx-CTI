@@ -26,9 +26,9 @@ export const Hotspots = ({ onSelect }: { onSelect: (query: string) => void }) =>
               <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                 <Target className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-[11px] font-black text-primary uppercase tracking-[0.3em]">Threat Hotspots</span>
+              <span className="text-[11px] font-bold text-primary uppercase tracking-[0.3em]">Threat Hotspots</span>
             </div>
-            <h2 className="text-4xl font-black text-gray-900 leading-tight">Threat <span className="italic text-primary">Hotspots</span></h2>
+            <h2 className="text-3xl font-bold text-gray-900 leading-tight">Threat <span className="italic text-primary">Hotspots</span></h2>
             <div className="flex gap-1.5 mt-2 mb-4">
                <div className="h-1 w-8 bg-[#FF9933] rounded-full"></div>
                <div className="h-1 w-8 bg-gray-200 rounded-full"></div>
@@ -63,7 +63,7 @@ export const Hotspots = ({ onSelect }: { onSelect: (query: string) => void }) =>
                     className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500" 
                  />
               </div>
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] group-hover:text-primary transition-colors text-center">
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] group-hover:text-primary transition-colors text-center">
                 {h.name}
               </span>
             </motion.button>

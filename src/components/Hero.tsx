@@ -9,9 +9,9 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
     <section className="bg-[#0a0a0a] py-16 relative overflow-hidden border-b border-white/5">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,92,187,0.12),transparent)] pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8">
-          <h2 className="text-white text-[10px] font-black uppercase tracking-[0.5em] mb-4 opacity-40">Secure Search Gateway</h2>
+          <h2 className="text-white text-[10px] font-bold uppercase tracking-[0.4em] mb-4 opacity-45">Secure Search Gateway</h2>
           <div className="flex justify-center gap-1.5 mb-2">
              <div className="w-12 h-1 bg-[#FF9933] rounded-full opacity-80"></div>
              <div className="w-12 h-1 bg-white rounded-full opacity-80"></div>
@@ -19,24 +19,25 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
           </div>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); onSearch(val); }} className="relative max-w-5xl mx-auto">
-          <div className="relative group p-1 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xl shadow-2xl transition-all hover:bg-white/[0.07] mb-6">
-            <input 
-              type="text" 
-              value={val}
-              onChange={(e) => setVal(e.target.value)}
-              placeholder="Search CVE, System, or Intelligence Vector..." 
-              className="w-full bg-white h-16 pl-8 pr-40 rounded-xl text-lg shadow-inner focus:outline-none transition-all placeholder:text-gray-400 font-medium text-gray-900 border border-gray-100"
-            />
-            <button type="submit" className="absolute right-2 top-2 bottom-2 px-10 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all active:scale-[0.98] flex items-center gap-2 group shadow-lg">
-              <Search className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="font-black uppercase tracking-[0.2em] text-[10px]">Search Intel</span>
-            </button>
+        <form onSubmit={(e) => { e.preventDefault(); onSearch(val); }} className="relative w-full">
+          <div className="p-[3px] rounded-2xl moving-rainbow-border shadow-[0_15px_40px_rgba(0,0,0,0.25)] transition-all hover:scale-[1.002] duration-300 mb-6">
+            <div className="relative bg-white rounded-[13px] flex items-center overflow-hidden">
+              <input 
+                type="text" 
+                value={val}
+                onChange={(e) => setVal(e.target.value)}
+                placeholder="Search CVE, System, or Intelligence Vector..." 
+                className="w-full bg-transparent h-16 pl-8 pr-44 text-lg focus:outline-none placeholder:text-gray-400 font-semibold text-gray-900"
+              />
+              <button type="submit" className="absolute right-2 top-2 bottom-2 px-8 bg-black hover:bg-gray-900 text-white rounded-xl transition-all active:scale-[0.98] flex items-center gap-2 group premium-3d-interactive">
+                <Search className="w-4 h-4 text-white/80 group-hover:scale-110 transition-transform" />
+                <span className="font-bold uppercase tracking-[0.2em] text-[10px]">Search Intel</span>
+              </button>
+            </div>
           </div>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { label: "Min CVSS Score", options: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
               { label: "Min CVSS Severity", options: ["Low", "Medium", "High", "Critical"] },
               { label: "Timeline range", options: ["Past 24 Hours", "Past 7 Days", "Past 30 Days", "Past Year"] },
               { label: "Distribution Sort", options: ["Publication Date", "Score Magnitude", "Threat Relevance"] }
@@ -44,13 +45,13 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
               <div key={filter.label} className="relative group">
                 <select 
                   onChange={(e) => onSearch(e.target.value)}
-                  defaultValue={filter.label}
-                  className="w-full appearance-none bg-white/5 border border-white/10 h-12 pl-4 pr-10 rounded-xl text-white/50 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 hover:text-white transition-all cursor-pointer outline-none"
+                  defaultValue=""
+                  className="w-full appearance-none bg-white/5 border border-white/10 h-13 pl-5 pr-12 rounded-xl text-white/70 text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 hover:text-white transition-all cursor-pointer outline-none focus:border-white/30"
                 >
-                  <option className="text-black" value="">{filter.label}</option>
-                  {filter.options.map(opt => <option key={opt} value={opt} className="text-black">{opt}</option>)}
+                  <option className="text-black bg-white" value="">{filter.label}</option>
+                  {filter.options.map(opt => <option key={opt} value={opt} className="text-black bg-white">{opt}</option>)}
                 </select>
-                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 pointer-events-none" />
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-hover:text-white/60 pointer-events-none transition-colors" />
               </div>
             ))}
           </div>
@@ -81,7 +82,7 @@ export const Explainer = ({ onChipClick }: { onChipClick: (q: string) => void })
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-lg border border-primary/10 text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-4">
              Global Intelligence Node
           </div>
-          <h1 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
+          <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 mb-6 leading-tight">
             Advanced Cyber Threat <span className="text-primary italic">Intelligence</span>
           </h1>
           <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-lg font-medium">
