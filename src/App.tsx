@@ -1,15 +1,23 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { Header, Footer } from "./components/Layout";
 import { Hero, Explainer } from "./components/Hero";
 import { StatsSection } from "./components/Stats";
 import { ChartsSection } from "./components/Charts";
 import { SearchPortal } from "./components/SearchPortal";
 import { TopSearches } from "./components/TopSearches";
+import { PulseDetailPage, CveDetailPage, IndicatorDetailPage } from "./components/DetailPages";
 
 const HomePage = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (location.state && (location.state as any).activeTab) {
+      setActiveTab((location.state as any).activeTab);
+    }
+  }, [location.state]);
 
   const handleSearch = (q: string) => {
     setSearchQuery(q);
@@ -69,6 +77,9 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/pulse/:id" element={<PulseDetailPage />} />
+        <Route path="/cve/:id" element={<CveDetailPage />} />
+        <Route path="/indicator/:type/*" element={<IndicatorDetailPage />} />
       </Routes>
     </Router>
   );

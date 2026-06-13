@@ -41,7 +41,7 @@ function detectIndicatorType(query: string): string | null {
 }
 
 // Dynamically parse CVSS Vector (CVSS 3.x) to extract attack parameters
-function parseCvssVector(vectorStr?: string) {
+export function parseCvssVector(vectorStr?: string) {
   const defaults = {
     complexity: "LOW",
     vector: "NETWORK",
@@ -83,7 +83,7 @@ function parseCvssVector(vectorStr?: string) {
 }
 
 // Generate a stable score based on threat ID/name to prevent random layout changes
-function getStableScore(name: string): string {
+export function getStableScore(name: string): string {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
