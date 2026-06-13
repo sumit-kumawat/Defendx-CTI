@@ -82,56 +82,67 @@ function parseCvssVector(vectorStr?: string) {
   };
 }
 
+// Generate a stable score based on threat ID/name to prevent random layout changes
+function getStableScore(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const positive = Math.abs(hash);
+  const score = 5.0 + (positive % 46) / 10; // score between 5.0 and 9.5
+  return score.toFixed(1);
+}
+
 // Generate the correct, live threat database details link instead of broken local/stale mocks
 function getDetailUrl(indicator: any): { url: string; sourceName: string } {
   const name = indicator.name || indicator.cve || indicator.indicator || "";
-  const id = indicator.id || indicator.pulse_info?.pulses?.[0]?.id || "54d10cb411d4083acf970927";
+  const id = indicator.id || indicator.pulse_info?.pulses?.[0]?.id || "54b6c01611d4080471a1a390";
   const type = (indicator.type || "").toLowerCase();
   
   if (type === "cve" || name.toUpperCase().startsWith("CVE-")) {
     const cveCode = name.toUpperCase().startsWith("CVE-") ? name.toUpperCase() : (indicator.indicator || name);
     return {
-      url: `https://nvd.nist.gov/vuln/detail/${encodeURIComponent(cveCode)}`,
-      sourceName: "NVD (National Vulnerability Database)"
+      url: `https://cti.defendx.io/cve/${encodeURIComponent(cveCode)}`,
+      sourceName: "Defendx CVE Registry"
     };
   }
   
   if (type === "ipv4" || type === "ipv6") {
     const ip = indicator.indicator || name;
     return {
-      url: `https://otx.alienvault.com/indicator/ip/${encodeURIComponent(ip)}`,
-      sourceName: "AlienVault OTX (IP Reputation)"
+      url: `https://cti.defendx.io/indicator/ip/${encodeURIComponent(ip)}`,
+      sourceName: "Defendx IP Reputation"
     };
   }
 
   if (type === "domain" || type === "hostname") {
     const dom = indicator.indicator || name;
     return {
-      url: `https://otx.alienvault.com/indicator/domain/${encodeURIComponent(dom)}`,
-      sourceName: "AlienVault OTX (Domain Reputation)"
+      url: `https://cti.defendx.io/indicator/domain/${encodeURIComponent(dom)}`,
+      sourceName: "Defendx Domain Reputation"
     };
   }
 
   if (type === "file") {
     const hash = indicator.indicator || name;
     return {
-      url: `https://otx.alienvault.com/indicator/file/${encodeURIComponent(hash)}`,
-      sourceName: "AlienVault OTX (File Analysis)"
+      url: `https://cti.defendx.io/indicator/file/${encodeURIComponent(hash)}`,
+      sourceName: "Defendx File Analysis"
     };
   }
 
   if (type === "url") {
     const targetUrl = indicator.indicator || name;
     return {
-      url: `https://otx.alienvault.com/indicator/url/${encodeURIComponent(targetUrl)}`,
-      sourceName: "AlienVault OTX (URL Analysis)"
+      url: `https://cti.defendx.io/indicator/url/${encodeURIComponent(targetUrl)}`,
+      sourceName: "Defendx URL Analysis"
     };
   }
 
-  // Fallback to AlienVault OTX Pulse page
+  // Fallback to Defendx Pulse page
   return {
-    url: `https://otx.alienvault.com/pulse/${encodeURIComponent(id)}`,
-    sourceName: "AlienVault OTX (Pulse Intelligence)"
+    url: `https://cti.defendx.io/pulse/${encodeURIComponent(id)}`,
+    sourceName: "Defendx Threat Pulse"
   };
 }
 
@@ -141,7 +152,7 @@ interface IndicatorModalProps {
 }
 
 const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
-  const score = indicator.cvss?.score || (Math.random() * 4 + 5).toFixed(1);
+  const score = indicator.cvss?.score || getStableScore(indicator.name || indicator.cve || indicator.indicator || "threat");
   const severity = score > 8.5 ? "Critical" : score > 7 ? "High" : "Medium";
   const severityColor = severity === "Critical" ? "text-red-600 bg-red-50 border-red-100" : severity === "High" ? "text-orange-600 bg-orange-50 border-orange-100" : "text-yellow-600 bg-yellow-50 border-yellow-100";
 
@@ -232,7 +243,7 @@ const IndicatorModal = ({ indicator, onClose }: IndicatorModalProps) => {
             {/* Description and parsed CVSS list */}
             <div className="lg:col-span-2">
               <p className="text-base text-gray-600 leading-relaxed font-medium mb-8">
-                {indicator.description || indicator.base_indicator?.description || "Detailed analysis of this intelligence vector is currently being processed by our Sentinel security operations system. This vulnerability may allow remote execution or unauthorized escalation depending on environmental vectors."}
+                {indicator.description || indicator.base_indicator?.description || "Detailed analysis of this intelligence vector is currently being processed by our Defendx security operations system. This vulnerability may allow remote execution or unauthorized escalation depending on environmental vectors."}
               </p>
               
               <div>
@@ -528,13 +539,9 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
           {/* Loading Indicator */}
           {loading && (
             <div className="bg-white rounded-2xl p-20 border border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex flex-col items-center justify-center relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 flex gap-0.5">
-                <div className="h-full bg-[#FF9933] flex-1"></div>
-                <div className="h-full bg-white flex-1 animate-pulse"></div>
-                <div className="h-full bg-[#138808] flex-1"></div>
-              </div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-primary animate-pulse" />
               <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
-              <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-[0.3em]">Sentinel Scanning Network...</p>
+              <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-[0.3em]">Defendx Scanning Network...</p>
             </div>
           )}
           
@@ -550,11 +557,7 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
           {/* Indicator Details Summary Widget */}
           {indicatorDetails && !loading && (
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm mb-12 relative overflow-hidden group/details">
-              <div className="absolute top-0 bottom-0 left-0 w-1.5 flex flex-col">
-                <div className="bg-[#FF9933] flex-1"></div>
-                <div className="bg-gray-200 flex-1"></div>
-                <div className="bg-[#138808] flex-1"></div>
-              </div>
+              <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-primary" />
 
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div>
@@ -591,7 +594,7 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
                 <div className="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl border border-gray-100 text-center shrink-0 w-full md:w-44">
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-widest mb-1.5">Indicator score</span>
                   <div className="text-3xl font-black text-gray-900 leading-none mb-1">
-                    {(indicatorDetails.cvss?.score || 7.2)}
+                    {indicatorDetails.cvss?.score || getStableScore(indicatorDetails.indicator || "threat")}
                   </div>
                   <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-orange-50 text-orange-600 border border-orange-100 mt-2">
                     High Risk
@@ -611,9 +614,8 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
                     Security Intelligence <span className="text-primary italic font-normal">Feed</span>
                   </h3>
                   <div className="flex h-1 w-24 gap-0.5 mt-2 mb-2">
-                    <div className="bg-[#FF9933] w-full rounded-full"></div>
-                    <div className="bg-gray-200 w-full rounded-full"></div>
-                    <div className="bg-[#138808] w-full rounded-full"></div>
+                    <div className="bg-primary w-2/3 rounded-full"></div>
+                    <div className="bg-blue-300 w-1/3 rounded-full"></div>
                   </div>
                   <p className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-none mt-1">
                     {indicatorDetails ? "Matching threat vectors inside OTX network" : "Active cyber incident intelligence feeds"}
@@ -627,7 +629,7 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
               
               <div className="grid grid-cols-1 gap-4">
                 {results.map((res: any, i: number) => {
-                  const cardScore = res.cvss?.score || (Math.random() * 4 + 4).toFixed(1);
+                  const cardScore = res.cvss?.score || getStableScore(res.name || res.cve || res.indicator || "threat");
                   const cardSeverity = cardScore > 8.5 ? "Critical" : cardScore > 7 ? "High" : "Medium";
                   const cardSeverityColor = cardSeverity === "Critical" ? "bg-red-50 text-red-600 border-red-100" : cardSeverity === "High" ? "bg-orange-50 text-orange-600 border-orange-100" : "bg-yellow-50 text-yellow-600 border-yellow-100";
 
@@ -643,12 +645,8 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
                       onClick={() => setSelectedIndicator(res)}
                       className="premium-3d-card cursor-pointer p-6 relative overflow-hidden group/card"
                     >
-                      {/* Tricolor glow strip inside each card under hover state */}
-                      <div className="absolute top-0 bottom-0 left-0 w-1 flex flex-col opacity-0 group-hover/card:opacity-100 transition-opacity">
-                        <div className="bg-[#FF9933] flex-1"></div>
-                        <div className="bg-gray-200 flex-1"></div>
-                        <div className="bg-[#138808] flex-1"></div>
-                      </div>
+                      {/* Glow strip inside each card under hover state */}
+                      <div className="absolute top-0 bottom-0 left-0 w-1 bg-primary opacity-0 group-hover/card:opacity-100 transition-opacity" />
 
                       <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                         
@@ -678,7 +676,7 @@ export const SearchPortal = ({ externalQuery }: { externalQuery?: string }) => {
                           </div>
                           
                           <p className="text-gray-500 text-xs leading-relaxed line-clamp-2 pr-10 font-medium">
-                            {res.description || `Sophisticated vulnerability identified in ${(res.author_name || 'enterprise')} infrastructure. This intelligence vector is currently under continuous monitoring by Sentinel.`}
+                            {res.description || `Sophisticated vulnerability identified in ${(res.author_name || 'enterprise')} infrastructure. This intelligence vector is currently under continuous monitoring by Defendx.`}
                           </p>
                         </div>
                         

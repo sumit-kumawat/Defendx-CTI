@@ -20,7 +20,7 @@ export const TopSearches = ({ onBrandClick }: { onBrandClick: (q: string) => voi
   return (
     <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-100">
       <div className="flex items-center gap-2 mb-10">
-         <div className="w-1.5 h-6 bg-[#138808] rounded-[10px]" />
+         <div className="w-1.5 h-6 bg-primary rounded-[10px]" />
          <h2 className="text-xl font-bold text-gray-900 pr-2 border-r border-gray-100 uppercase tracking-tight">Vulnerability Hotspots</h2>
          <span className="text-[10px] font-black text-gray-400 tracking-widest uppercase">Target Platforms</span>
       </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { BarChart3, Search, Target, Shield, ShieldCheck, ExternalLink } from "lucide-react";
-import { DefendxLogo } from "./BrandLogos";
 
 interface HeaderProps {
   activeTab: string;
@@ -16,12 +15,13 @@ export const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
         <div className="flex items-center gap-8">
           <button 
             onClick={() => setActiveTab("dashboard")}
-            className="flex items-center gap-3 group transition-all select-none cursor-pointer"
+            className="flex items-center group transition-all select-none cursor-pointer"
           >
-            <DefendxLogo className="h-10 w-10 text-primary transition-transform group-hover:scale-105" />
-            <span className="font-black text-xl tracking-wider text-gray-900 group-hover:text-primary transition-colors">
-              DEFEND<span className="text-primary italic">X</span>
-            </span>
+            <img 
+              src="https://xdrive.conzex.com/api/files/public/b8dad769-8a2a-4aa6-a1c6-96ec70a81158/light.svg" 
+              alt="Defendx Logo" 
+              className="h-10 w-auto object-contain transition-transform group-hover:scale-102" 
+            />
           </button>
         </div>
 
@@ -57,10 +57,9 @@ export const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div>
             Security: Active
           </div>
-          <div className="flex flex-col h-1.5 w-6 gap-0.5">
-            <div className="h-0.5 bg-[#FF9933] w-full rounded-full"></div>
-            <div className="h-0.5 bg-gray-300 w-full rounded-full"></div>
-            <div className="h-0.5 bg-[#138808] w-full rounded-full"></div>
+          <div className="flex flex-col h-1 w-6 gap-0.5 opacity-60">
+            <div className="h-0.5 bg-primary w-full rounded-full"></div>
+            <div className="h-0.5 bg-blue-300 w-full rounded-full"></div>
           </div>
         </div>
 
@@ -80,7 +79,11 @@ export const Footer = () => {
         
         {/* Shield Icon in footer */}
         <div className="flex items-center justify-center mb-8">
-          <DefendxLogo className="h-14 w-auto brightness-0 invert opacity-90 transition-opacity hover:opacity-100" />
+          <img 
+            src="https://xdrive.conzex.com/api/files/public/8823c722-4280-464a-ac2e-76cb0963cf43/full-dark.svg" 
+            alt="Defendx Logo" 
+            className="h-14 w-auto object-contain opacity-90 transition-opacity hover:opacity-100" 
+          />
         </div>
         
         <p className="text-sm text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">

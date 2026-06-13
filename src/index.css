@@ -20,24 +20,23 @@
   body {
     @apply bg-background text-text font-sans antialiased selection:bg-primary/20 selection:text-primary;
     background-image: 
-      radial-gradient(at 50% 0%, rgba(32, 69, 180, 0.03) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, rgba(19, 136, 8, 0.02) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(255, 153, 51, 0.02) 0px, transparent 50%);
+      radial-gradient(at 50% 0%, rgba(32, 69, 180, 0.04) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(32, 69, 180, 0.02) 0px, transparent 50%);
     background-attachment: fixed;
   }
 }
 
-/* Indian Tricolor Linear Accent Bars & Gradients */
+/* Corporate Blue Accent Bars & Gradients */
 .tricolor-stripe {
   @apply h-[3px] w-full flex overflow-hidden rounded-full;
 }
-.tricolor-stripe > div:nth-child(1) { @apply bg-[#FF9933] h-full flex-1; }
-.tricolor-stripe > div:nth-child(2) { @apply bg-white h-full flex-1; }
-.tricolor-stripe > div:nth-child(3) { @apply bg-[#138808] h-full flex-1; }
+.tricolor-stripe > div:nth-child(1) { @apply bg-primary h-full flex-1; }
+.tricolor-stripe > div:nth-child(2) { @apply bg-blue-400 h-full flex-1; }
+.tricolor-stripe > div:nth-child(3) { @apply bg-blue-600 h-full flex-1; }
 
 .tricolor-glowing-bar {
-  background: linear-gradient(90deg, #FF9933 0%, #ffffff 50%, #138808 100%);
-  box-shadow: 0 0 12px rgba(255, 153, 51, 0.4), 0 0 4px rgba(19, 136, 8, 0.4);
+  background: linear-gradient(90deg, #2045B4 0%, #3b82f6 50%, #1d4ed8 100%);
+  box-shadow: 0 0 12px rgba(32, 69, 180, 0.4), 0 0 4px rgba(37, 99, 235, 0.4);
 }
 
 /* 3D-Like Premium Elevation Styles */
@@ -151,17 +150,14 @@
 .moving-rainbow-border {
   background: linear-gradient(
     90deg,
-    #ff9933 0%,
-    #ffcc00 15%,
-    #33cc33 30%,
-    #00ffff 45%,
-    #2045b4 60%,
-    #9933ff 75%,
-    #ff3399 90%,
-    #ff9933 100%
+    #2045b4 0%,
+    #3b82f6 25%,
+    #60a5fa 50%,
+    #3b82f6 75%,
+    #2045b4 100%
   );
-  background-size: 300% 300%;
-  animation: moving-rainbow 8s ease infinite;
+  background-size: 200% 200%;
+  animation: moving-rainbow 6s ease infinite;
 }
 
 

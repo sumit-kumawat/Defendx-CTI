@@ -40,9 +40,8 @@ const HomePage = () => {
             <div className="mb-10 text-center md:text-left">
               <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">Threat Intelligence Explorer</h2>
               <div className="flex h-1 w-24 gap-0.5 mt-2 mb-2 justify-center md:justify-start">
-                <div className="bg-[#FF9933] w-full rounded-full"></div>
-                <div className="bg-gray-200 w-full rounded-full"></div>
-                <div className="bg-[#138808] w-full rounded-full"></div>
+                <div className="bg-primary w-full rounded-full"></div>
+                <div className="bg-blue-300 w-full rounded-full"></div>
               </div>
               <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mt-1">
                 Query global threat intelligence feeds and lookup indicators of compromise (IOCs)

@@ -123,9 +123,9 @@ export const DefendxLogo = (props: React.SVGProps<SVGSVGElement>) => (
         <stop offset="1" stopColor="#111827" />
       </linearGradient>
       <linearGradient id="defendx-accent-grad" x1="12" y1="6" x2="12" y2="18" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#FF9933" />
-        <stop offset="0.5" stopColor="#ffffff" />
-        <stop offset="1" stopColor="#138808" />
+        <stop stopColor="#3b82f6" />
+        <stop offset="0.5" stopColor="#60a5fa" />
+        <stop offset="1" stopColor="#2045B4" />
       </linearGradient>
     </defs>
   </svg>

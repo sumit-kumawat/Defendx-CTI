@@ -3,9 +3,11 @@ import axios from "axios";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { Loader2 } from "lucide-react";
 
+let cachedChartData: any = null;
+
 export const ChartsSection = () => {
-  const [data, setData] = useState<any>({ sources: [], timeline: [] });
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>(cachedChartData || { sources: [], timeline: [] });
+  const [loading, setLoading] = useState(!cachedChartData);
 
   const officialSources = [
     "AlmaLinux", "Amazon", "ArchLinux", "Canonical", "Debian", "Fedora", 
@@ -13,10 +15,10 @@ export const ChartsSection = () => {
   ];
 
   useEffect(() => {
+    if (cachedChartData) return;
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/otx/pulses/activity");
-        const pulses = response.data.results || [];
         
         // Mocking sources based on requested list for visual fidelity to the image
         const sources = officialSources.map((name, i) => ({
@@ -35,7 +37,8 @@ export const ChartsSection = () => {
           Other: Math.floor(Math.random() * 2000) + 500
         }));
 
-        setData({ sources, timeline });
+        cachedChartData = { sources, timeline };
+        setData(cachedChartData);
       } catch (err) {
         console.error("Charts fetch error:", err);
       } finally {
@@ -71,9 +74,8 @@ const PIE_COLORS = [
         <div>
           <h2 className="text-2xl font-bold text-gray-900 leading-tight">Defendx <span className="text-primary italic">Threat Matrix</span></h2>
           <div className="flex h-1 w-24 gap-1 mt-2 mb-2">
-            <div className="bg-[#FF9933] w-full rounded-full"></div>
-            <div className="bg-gray-200 w-full rounded-full"></div>
-            <div className="bg-[#138808] w-full rounded-full"></div>
+            <div className="bg-primary w-2/3 rounded-full"></div>
+            <div className="bg-blue-300 w-1/3 rounded-full"></div>
           </div>
           <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Real-time Statistical Analysis</p>
         </div>
@@ -82,16 +84,12 @@ const PIE_COLORS = [
         {/* CVEs by source */}
         <div>
           <h2 className="text-lg font-bold text-gray-900 mb-8 px-2 uppercase tracking-tight flex items-center gap-2">
-            <span className="w-1.5 h-4 bg-[#FF9933] rounded-full"></span>
+            <span className="w-1.5 h-4 bg-primary rounded-full"></span>
             CVEs by <span className="text-primary italic">source</span>
           </h2>
           <div className="premium-3d-card h-[450px] p-8 flex items-center relative overflow-hidden group/chart-source">
-            {/* Hover tri-color accent strip */}
-            <div className="absolute top-0 bottom-0 left-0 w-1 flex flex-col opacity-0 group-hover/chart-source:opacity-100 transition-opacity">
-              <div className="bg-[#FF9933] flex-1"></div>
-              <div className="bg-gray-200 flex-1"></div>
-              <div className="bg-[#138808] flex-1"></div>
-            </div>
+            {/* Hover accent strip */}
+            <div className="absolute top-0 bottom-0 left-0 w-1 bg-primary opacity-0 group-hover/chart-source:opacity-100 transition-opacity" />
 
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -132,16 +130,12 @@ const PIE_COLORS = [
         {/* CVEs by year */}
         <div>
           <h2 className="text-lg font-bold text-gray-900 mb-8 px-2 uppercase tracking-tight flex items-center gap-2">
-            <span className="w-1.5 h-4 bg-[#138808] rounded-full"></span>
+            <span className="w-1.5 h-4 bg-blue-500 rounded-full"></span>
             CVEs by <span className="text-primary italic">year</span>
           </h2>
           <div className="premium-3d-card h-[450px] p-8 relative overflow-hidden group/chart-year">
-            {/* Hover tri-color accent strip */}
-            <div className="absolute top-0 bottom-0 left-0 w-1 flex flex-col opacity-0 group-hover/chart-year:opacity-100 transition-opacity">
-              <div className="bg-[#FF9933] flex-1"></div>
-              <div className="bg-gray-200 flex-1"></div>
-              <div className="bg-[#138808] flex-1"></div>
-            </div>
+            {/* Hover accent strip */}
+            <div className="absolute top-0 bottom-0 left-0 w-1 bg-primary opacity-0 group-hover/chart-year:opacity-100 transition-opacity" />
 
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.timeline} margin={{ top: 20, right: 0, left: 0, bottom: 20 }}>

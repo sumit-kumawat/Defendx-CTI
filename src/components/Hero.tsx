@@ -14,10 +14,9 @@ export const Hero = ({ onSearch }: { onSearch: (q: string) => void }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8">
           <h2 className="text-white text-[10px] font-bold uppercase tracking-[0.4em] mb-4 opacity-45">Secure Search Gateway</h2>
-          <div className="flex justify-center gap-1.5 mb-2">
-             <div className="w-12 h-1 bg-[#FF9933] rounded-full opacity-80"></div>
-             <div className="w-12 h-1 bg-white rounded-full opacity-80"></div>
-             <div className="w-12 h-1 bg-[#138808] rounded-full opacity-80"></div>
+          <div className="flex justify-center gap-1 mb-2">
+             <div className="w-24 h-1 bg-primary rounded-full opacity-80"></div>
+             <div className="w-12 h-1 bg-blue-400 rounded-full opacity-80"></div>
           </div>
         </div>
 
